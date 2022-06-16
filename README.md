@@ -1,6 +1,6 @@
 # pybind\_scikit\_example
 
-Example repo demonstrating how to combine C++ and python code with using
+Example repo demonstrating how to combine C++ and python code using
 [`pybind11`](https://github.com/pybind/pybind11). There are a number of
 ways to do this; the approach here is to use the `pip` `pybind11` package
 (rather than submodules) and `CMake` + `scikit_build` along with the
