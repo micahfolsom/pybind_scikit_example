@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # From https://github.com/pybind/pybind_scikit_example
 import importlib.util
-from setuptools import find_packages
 from skbuild import setup
 
 spec = importlib.util.spec_from_file_location(
@@ -17,7 +16,6 @@ with open("requirements.txt", "r") as f:
     requirements = f.read()
     requirements = [line for line in requirements.split("\n") if line]
 
-
 setup(
     name=METADATA.__name__,
     version=METADATA.__version__,
@@ -31,7 +29,7 @@ setup(
     maintainer=METADATA.__author__,
     maintainer_email=METADATA.__email__,
     classifiers=METADATA.__classifiers__,
-    packages=find_packages(where="src"),
+    packages=["pybind_scikit_example"],
     package_dir={"": "src"},
     cmake_install_dir="src/pybind_scikit_example",
     python_requires=">=3.6",
