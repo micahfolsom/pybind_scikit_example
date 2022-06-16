@@ -30,16 +30,20 @@ set(BINGO_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/bingo_cpp)
 include_directories(${BINGO_SOURCE_DIR})
 file(GLOB BINGO_SOURCES ${BINGO_SOURCE_DIR}/*.cpp)
 # Pingo source
-#set(PINGO_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src/cpp)
-#include_directories(${PINGO_SOURCE_DIR})
-#file(GLOB PINGO_SOURCES ${PINGO_SOURCE_DIR}/*.cpp)
+set(PINGO_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/pingo_cpp)
+include_directories(${PINGO_SOURCE_DIR})
+file(GLOB PINGO_SOURCES ${PINGO_SOURCE_DIR}/*.cpp)
 
 # Essentially a wrapper for target_link_libraries()
 pybind11_add_module(bingo_cpp
   MODULE
   ${BINGO_SOURCES}
 )
-#target_link_libraries(bingo_cpp PRIVATE ${HDF5_LIBRARIES})
+pybind11_add_module(pingo_cpp
+  MODULE
+  ${PINGO_SOURCES}
+)
+#target_link_libraries(pingo_cpp PRIVATE ${HDF5_LIBRARIES})
 
 #target_compile_definitions(bingo_cpp
 #  PRIVATE
@@ -47,3 +51,4 @@ pybind11_add_module(bingo_cpp
 #)
 
 install(TARGETS bingo_cpp DESTINATION .)
+install(TARGETS pingo_cpp DESTINATION .)

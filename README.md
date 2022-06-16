@@ -50,4 +50,20 @@ and function to python.
 
 ### pingo\_cpp
 
-TODO
+The code is in `src/pingo_cpp`. There's a stand-alone `CMakeLists.txt` for
+_just_ compiling that code in isolation, which I find really useful for
+testing.
+
+It demonstrates a wider range of capability. Numpy arrays are passed into
+and out of the `Pingo` object, changing its internal array data. This is
+both super convenient and much more performant than passing std::vector or
+other similar STL structures. In this example, I'm doing the simple/stupid
+approach of just copying the array data, so you can see how to return
+`numpy` arrays in general, without worrying about a pointer to a buffer.
+This will work fine for a lot of scenarios.
+
+If you really need to push the performance limits (you're passing many GB of
+data between C++/python), you'll want to read up on the `pybind11`
+[buffer protocol](https://pybind11.readthedocs.io/en/stable/advanced/pycpp/numpy.html)
+, which will allow you to pass the underlying pointer to `numpy`, use
+`copy=False` when you construct the array, and avoid the copy entirely.

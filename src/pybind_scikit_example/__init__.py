@@ -10,6 +10,7 @@ from .__metadata__ import (
 )
 from .example import run_python_code, run_bingo_code, run_pingo_code
 from .bingo_cpp import Choice, run_bingo
+from .pingo_cpp import Pingo
 
 __all__ = [
     "__name__",
@@ -25,4 +26,5 @@ __all__ = [
     "run_pingo_code",
     "Choice",
     "run_bingo",
+    "Pingo",
 ]

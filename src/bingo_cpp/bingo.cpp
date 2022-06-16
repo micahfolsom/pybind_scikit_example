@@ -17,7 +17,7 @@ void run_bingo(Choice choice) {
       cout << "bingo_cpp.run_bingo(): Bong!" << endl;
       break;
     default:
-      throw std::invalid_argument("bingo_cpp.run_bingo(): invalid Choice");
+      throw invalid_argument("bingo_cpp.run_bingo(): invalid Choice");
   }
   return;
 }

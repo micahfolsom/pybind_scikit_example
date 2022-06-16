@@ -12,6 +12,7 @@ def test_run_bingo():
     pbske.run_bingo(pbske.Choice.Bing)
     pbske.run_bingo(pbske.Choice.Bang)
     pbske.run_bingo(pbske.Choice.Bong)
+
     # Must use the enum if that's the type of the function argument (no
     # implicit conversion from "int")
     with pytest.raises(TypeError):
