@@ -15,10 +15,12 @@ features are missing, and it's not always clear how you'd do them and still
 be confident both editable and non-editable installs work. I also like to
 organize the code a bit differently.
 
-Additional features:
+## Additional Features
 
 1. Splitting up C++ source files and bindings instead of bunching into
   one file
+1. Passing 1/2/3D `numpy` arrays and structured arrays to and from C++ code
+  using a C-struct definition
 1. Including some package data via `MANIFEST.in` and passing the file path
   from python to C++
 1. Linking against external code that we have (e.g. in a submodule) by
