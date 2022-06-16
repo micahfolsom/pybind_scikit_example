@@ -1,4 +1,5 @@
 #!/usr/env/bin python
+from .bingo_cpp import run_bingo, Choice
 
 
 def run_python_code() -> None:
@@ -6,8 +7,9 @@ def run_python_code() -> None:
 
 
 def run_bingo_code() -> None:
-    print("pybind_scikit_example.example.run_bingo_code(): badabing!")
-    # TODO
+    run_bingo(Choice.Bing)
+    run_bingo(Choice.Bang)
+    run_bingo(Choice.Bong)
     return None
 
 

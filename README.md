@@ -1,7 +1,7 @@
 # pybind\_scikit\_example
 
 Example repo demonstrating how to combine C++ and python code with using
-[`pybind11`][https://github.com/pybind/pybind11]. There are a number of
+[`pybind11`](https://github.com/pybind/pybind11). There are a number of
 ways to do this; the approach here is to use the `pip` `pybind11` package
 (rather than submodules) and `CMake` + `scikit_build` along with the
 usual `setuptools` (rather than writing our own `CMakeExtension` in
@@ -29,3 +29,25 @@ organize the code a bit differently.
   can't compile it ourselves. But, the resulting package needs to have the
   .so paths embedded in it so it can find them at runtime
 1. Including multiple python-bound C++ modules
+
+## Overview
+
+If you're new to `pybind11`, start by examining the setup for the
+`bingo_cpp` module. This is a very simple module with just a few things in
+it for beginners. If you're looking for the full set of example features,
+such as numpy arrays, then check out `pingo_cpp`.
+
+### bingo\_cpp
+
+The code is in `src/bingo_cpp`, the C++/`pybind11` build config is in
+`CMakeLists.txt`, and the imports are in
+`src/pybind_scikit_example/__init__.py` and `example.py`. There is an
+enum and function defined in a namespace, which is good practice, rather
+than putting them into the global scope.
+
+`src/bingo_cpp/bindings.cpp` shows a brief example of exposing the enum
+and function to python.
+
+### pingo\_cpp
+
+TODO
