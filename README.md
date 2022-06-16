@@ -60,10 +60,13 @@ both super convenient and much more performant than passing std::vector or
 other similar STL structures. In this example, I'm doing the simple/stupid
 approach of just copying the array data, so you can see how to return
 `numpy` arrays in general, without worrying about a pointer to a buffer.
-This will work fine for a lot of scenarios.
+This will work fine for a lot of scenarios. Note that when using
+`pybind11::array_t<T>`, it's passing a smart pointer from C++ to python,
+so there's no copy of the underlying data between the two sides.
 
 If you really need to push the performance limits (you're passing many GB of
 data between C++/python), you'll want to read up on the `pybind11`
 [buffer protocol](https://pybind11.readthedocs.io/en/stable/advanced/pycpp/numpy.html)
 , which will allow you to pass the underlying pointer to `numpy`, use
-`copy=False` when you construct the array, and avoid the copy entirely.
+`copy=False` (or the C++ equivalent in `pybind11`) when you construct the
+array, and avoid the copy entirely.

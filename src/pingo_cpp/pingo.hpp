@@ -1,5 +1,7 @@
 #ifndef PINGO_HPP
 #define PINGO_HPP
+#include <pybind11/numpy.h>
+
 #include <string>
 #include <vector>
 
@@ -33,9 +35,14 @@ class Pingo {
   inline size_t size() const { return m_size; }
 
   // Getters and setters, which will be passed opaquely to python, e.g.
-  // pingo = pingo_cpp.Pingo(pingo_cpp.Pingo.Large)
+  // pingo = pingo_cpp.Pingo(pingo_cpp.Pingo.Type.Large)
   // pingo.data_1d = numpy.ones(shape=(pingo_cpp.Pingo.LARGE_PINGOS))
-  // TODO
+  pybind11::array_t<int> get_data_1d() const;
+  void set_data_1d(pybind11::array_t<int> arr);
+  pybind11::array_t<float> get_data_2d() const;
+  void set_data_2d(pybind11::array_t<float> arr);
+  pybind11::array_t<Point> get_data_3d() const;
+  void set_data_3d(pybind11::array_t<Point> arr);
 
  private:
   Type m_type;

@@ -19,6 +19,10 @@ repos:
     rev: 4.0.1
     hooks:
       - id: flake8
+        # W503/504: Line break before binary operator; black formats this way
+        # E203: Whitespace before ":" while slicing; black formats this way
+        # Line length: match the black default of 88
+        args: ['--max-line-length=88', '--ignore=W504, W503, E203']
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.30.0
     hooks:

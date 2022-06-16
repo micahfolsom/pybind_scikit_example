@@ -46,7 +46,21 @@ Pingo::Pingo(Type type) : m_type(type) {
 
 Pingo::~Pingo() { cout << "Destroying Pingo" << endl; }
 
-void Pingo::scale(int factor) { return; }
+void Pingo::scale(int factor) {
+  for (size_t i = 0; i < m_size; ++i) {
+    m_data1D[i] *= factor;
+    for (size_t j = 0; j < m_size; ++j) {
+      m_data2D[i][j] *= (float)factor;
+      for (size_t k = 0; k < m_size; ++k) {
+        m_data3D[i][j][k].x *= (float)factor;
+        m_data3D[i][j][k].y *= (float)factor;
+        m_data3D[i][j][k].z *= (float)factor;
+      }
+    }
+  }
+  return;
+}
+
 string Pingo::str() const {
   stringstream ss;
   ss << "\nPingo:\n";
@@ -67,4 +81,53 @@ string Pingo::str() const {
   ss << "\n  size: " << m_size << "\n";
   return ss.str();
 }
+pybind11::array_t<int> Pingo::get_data_1d() const {
+  pybind11::array_t<int> output(m_size);
+  auto ptr = static_cast<int*>(output.request().ptr);
+  for (size_t i = 0; i < m_size; ++i) {
+    ptr[i] = m_data1D[i];
+  }
+  return output;
+}
+void Pingo::set_data_1d(pybind11::array_t<int> arr) { return; }
+pybind11::array_t<float> Pingo::get_data_2d() const {
+  pybind11::array_t<float> output(m_size * m_size);
+  auto ptr = static_cast<float*>(output.request().ptr);
+  for (size_t i = 0; i < m_size; ++i) {
+    // More efficient:
+    // memcpy(ptr, m_data2D[i].data(), m_size * sizeof(float));
+    for (size_t j = 0; j < m_size; ++j) {
+      // Row-major - getting this right/wrong can make a big difference
+      // in performance, so be careful!
+      // idx = (i * <J_DIM_SIZE>) + j;
+      size_t idx = (i * m_size) + j;
+      ptr[idx] = m_data2D[i][j];
+    }
+  }
+  output.resize({m_size, m_size});
+  return output;
+}
+void Pingo::set_data_2d(pybind11::array_t<float> arr) { return; }
+pybind11::array_t<Point> Pingo::get_data_3d() const {
+  pybind11::array_t<Point> output(m_size * m_size * m_size);
+  auto ptr = static_cast<Point*>(output.request().ptr);
+  for (size_t i = 0; i < m_size; ++i) {
+    for (size_t j = 0; j < m_size; ++j) {
+      // More efficient:
+      // memcpy(ptr, m_data3D[i][j].data(), m_size * sizeof(Point));
+      for (size_t k = 0; k < m_size; ++k) {
+        // Row-major - getting this right/wrong can make a big difference
+        // in performance, so be careful!
+        // idx = ((i * <J_DIM_SIZE> + j) * <K_DIM_SIZE>) + k;
+        size_t idx = ((i * m_size + j) * m_size) + k;
+        ptr[idx].x = m_data3D[i][j][k].x;
+        ptr[idx].y = m_data3D[i][j][k].y;
+        ptr[idx].z = m_data3D[i][j][k].z;
+      }
+    }
+  }
+  output.resize({m_size, m_size, m_size});
+  return output;
+}
+void Pingo::set_data_3d(pybind11::array_t<Point> arr) { return; }
 }  // namespace pingo
