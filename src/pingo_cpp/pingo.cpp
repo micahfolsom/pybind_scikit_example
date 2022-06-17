@@ -12,19 +12,19 @@ size_t const Pingo::MEDIUM_PINGOS = 50;
 size_t const Pingo::LARGE_PINGOS = 100;
 
 Pingo::Pingo(Type type) : m_type(type) {
-  cout << "Creating";
+  // cout << "Creating";
   switch (m_type) {
     case Small:
       m_size = SMALL_PINGOS;
-      cout << " Small";
+      // cout << " Small";
       break;
     case Medium:
       m_size = MEDIUM_PINGOS;
-      cout << " Medium";
+      // cout << " Medium";
       break;
     case Large:
       m_size = LARGE_PINGOS;
-      cout << " Large";
+      // cout << " Large";
       break;
     case Other:
       cerr << "Type.Other is invalid - use the size_t ctor instead" << endl;
@@ -32,7 +32,7 @@ Pingo::Pingo(Type type) : m_type(type) {
     default:
       throw invalid_argument("pingo_cpp.Pingo(): invalid Type passed!");
   }
-  cout << " Pingo..." << endl;
+  // cout << " Pingo..." << endl;
 
   m_data1D = vector<int>(m_size, (int)type);
   m_data2D = vector<vector<float>>(m_size);
@@ -45,10 +45,10 @@ Pingo::Pingo(Type type) : m_type(type) {
                                               (float)(m_size - j - 1), false});
     }
   }
-  cout << "...done" << endl;
+  // cout << "...done" << endl;
 }
 Pingo::Pingo(size_t size) : m_size(size) {
-  cout << "Creating Pingo..." << endl;
+  // cout << "Creating Pingo..." << endl;
   m_type = Type::Other;
 
   m_data1D = vector<int>(m_size, (int)m_type);
@@ -62,10 +62,11 @@ Pingo::Pingo(size_t size) : m_size(size) {
                                               (float)(m_size - j - 1), false});
     }
   }
-  cout << "...done" << endl;
+  // cout << "...done" << endl;
 }
 
-Pingo::~Pingo() { cout << "Destroying Pingo" << endl; }
+Pingo::~Pingo() {  // cout << "Destroying Pingo" << endl; }
+}
 
 void Pingo::scale(int factor) {
   for (size_t i = 0; i < m_size; ++i) {
