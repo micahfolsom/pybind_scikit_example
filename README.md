@@ -15,6 +15,11 @@ features are missing, and it's not always clear how you'd do them and still
 be confident both editable and non-editable installs work. I also like to
 organize the code a bit differently.
 
+For editable installs, they should work out-of-the-box when using a
+virtual environment such as `conda`. Bare metal, you may need to run:
+`pip install --prefix=$(python -m site --user-base) -e .` to avoid the
+`easy_install` errors.
+
 ## Additional Features
 
 1. Splitting up C++ source files and bindings instead of bunching into

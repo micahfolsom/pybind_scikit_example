@@ -13,6 +13,10 @@ def test_pingo_sizes():
     p_l = pbske.Pingo(pbske.Pingo.Type.Large)
     assert len(p_l) > len(p_m)
 
+    # Construct with a different size - passing int calls the size_t ctor
+    p_h = pbske.Pingo(500)
+    assert len(p_h) > len(p_l)
+
     SMA = pbske.Pingo.SMALL_PINGOS
     MED = pbske.Pingo.MEDIUM_PINGOS
     LRG = pbske.Pingo.LARGE_PINGOS
@@ -39,4 +43,10 @@ def test_pingo_data():
     # Type = 2, so that's the initial value for the 1D array
     assert np.all(p_m.data_1d == (np.ones(len(p_m), dtype=int) * 2 * 10))
     assert np.all(p_m.data_2d == (np.ones((len(p_m), len(p_m)), dtype=int) * 2 * 10))
-    assert np.all(np.isclose(p_m.data_3d["x"], np.ones(len(p_m), dtype=float) * 100.0))
+    assert np.all(p_m.data_3d["error"] is False)
+
+    vec_data = p_m.data_1d_vec
+    assert len(p_m) == len(vec_data)
+    # Shouldn't be settable
+    with pytest.raises(AttributeError):
+        p_m.data_1d_vec = vec_data
