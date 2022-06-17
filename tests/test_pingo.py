@@ -43,10 +43,25 @@ def test_pingo_data():
     # Type = 2, so that's the initial value for the 1D array
     assert np.all(p_m.data_1d == (np.ones(len(p_m), dtype=int) * 2 * 10))
     assert np.all(p_m.data_2d == (np.ones((len(p_m), len(p_m)), dtype=int) * 2 * 10))
-    assert np.all(p_m.data_3d["error"] is False)
+    # Initialized False
+    assert not np.any(p_m.data_3d["error"])
 
     vec_data = p_m.data_1d_vec
     assert len(p_m) == len(vec_data)
     # Shouldn't be settable
     with pytest.raises(AttributeError):
         p_m.data_1d_vec = vec_data
+
+    # Structured array comes out with the expected types
+    DTYPE = np.dtype(
+        [
+            ("channel", np.uint8),
+            ("timestamp", np.uint64),
+            # Remember, we used float, not double, in the C-struct def
+            ("value", np.float32),
+            ("error", bool),
+        ]
+    )
+    data3d = p_m.data_3d
+    for name in data3d.dtype.names:
+        assert data3d.dtype[name] == DTYPE[name]
