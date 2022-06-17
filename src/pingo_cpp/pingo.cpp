@@ -37,12 +37,18 @@ Pingo::Pingo(Type type) : m_type(type) {
   m_data1D = vector<int>(m_size, (int)type);
   m_data2D = vector<vector<float>>(m_size);
   m_data3D = vector<vector<vector<Event>>>(m_size);
+  m_data3DNoCopy = vector<Event>(m_size * m_size * m_size);
   for (size_t i = 0; i < m_size; ++i) {
     m_data2D[i] = vector<float>(m_size, (float)type);
     m_data3D[i] = vector<vector<Event>>(m_size);
     for (size_t j = 0; j < m_size; ++j) {
       m_data3D[i][j] = vector<Event>(m_size, {(uint8_t)(j % 255), (uint64_t)j,
                                               (float)(m_size - j - 1), false});
+      for (size_t k = 0; k < m_size; ++k) {
+        size_t idx = ((i * m_size + j) * m_size) + k;
+        m_data3DNoCopy[idx] = {(uint8_t)(j % 255), (uint64_t)j,
+                               (float)(m_size - j - 1), false};
+      }
     }
   }
   // cout << "...done" << endl;
@@ -54,12 +60,18 @@ Pingo::Pingo(size_t size) : m_size(size) {
   m_data1D = vector<int>(m_size, (int)m_type);
   m_data2D = vector<vector<float>>(m_size);
   m_data3D = vector<vector<vector<Event>>>(m_size);
+  m_data3DNoCopy = vector<Event>(m_size * m_size * m_size);
   for (size_t i = 0; i < m_size; ++i) {
     m_data2D[i] = vector<float>(m_size, (float)m_type);
     m_data3D[i] = vector<vector<Event>>(m_size);
     for (size_t j = 0; j < m_size; ++j) {
       m_data3D[i][j] = vector<Event>(m_size, {(uint8_t)(j % 255), (uint64_t)j,
                                               (float)(m_size - j - 1), false});
+      for (size_t k = 0; k < m_size; ++k) {
+        size_t idx = ((i * m_size + j) * m_size) + k;
+        m_data3DNoCopy[idx] = {(uint8_t)(j % 255), (uint64_t)j,
+                               (float)(m_size - j - 1), false};
+      }
     }
   }
   // cout << "...done" << endl;
@@ -75,6 +87,8 @@ void Pingo::scale(int factor) {
       m_data2D[i][j] *= (float)factor;
       for (size_t k = 0; k < m_size; ++k) {
         m_data3D[i][j][k].value *= (float)factor;
+        size_t idx = ((i * m_size + j) * m_size) + k;
+        m_data3DNoCopy[idx].value *= (float)factor;
       }
     }
   }
@@ -228,6 +242,13 @@ pybind11::array_t<Event> Pingo::get_data_3d_colmaj() const {
       }
     }
   }
+  output.resize({m_size, m_size, m_size});
+  return output;
+}
+pybind11::array_t<Event> Pingo::get_data_3d_memcpy() const {
+  pybind11::array_t<Event> output(m_size * m_size * m_size);
+  auto ptr = static_cast<Event*>(output.request().ptr);
+  memcpy(ptr, m_data3DNoCopy.data(), m_size * m_size * m_size * sizeof(Event));
   output.resize({m_size, m_size, m_size});
   return output;
 }

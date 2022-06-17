@@ -16,6 +16,8 @@ from .profiling import (
     profile_2d_numpy,
     profile_3d_numpy_copy,
     profile_3d_numpy_colmaj,
+    profile_3d_numpy_memcpy,
+    profile_all,
 )
 from .bingo_cpp import Choice, run_bingo
 from .pingo_cpp import Pingo
@@ -41,4 +43,6 @@ __all__ = [
     "profile_2d_numpy",
     "profile_3d_numpy_copy",
     "profile_3d_numpy_colmaj",
+    "profile_3d_numpy_memcpy",
+    "profile_all",
 ]

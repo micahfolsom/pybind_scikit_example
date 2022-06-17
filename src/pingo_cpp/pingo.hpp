@@ -54,7 +54,7 @@ class Pingo {
   pybind11::array_t<Event> get_data_3d_colmaj() const;
   // using memcpy() to copy the whole array at once, instead of looping
   // over the vector<vector<vector<Event>>>
-  // pybind11::array_t<Event> get_data_3d_memcopy();
+  pybind11::array_t<Event> get_data_3d_memcpy() const;
   // pybind11::array_t<Event> get_data_3d_nocopy();
 
  private:
@@ -66,7 +66,7 @@ class Pingo {
   // We store 3D data as a 1D array for performance - we can either memcpy
   // the whole thing to a numpy array, or pass the pointer directly to
   // numpy
-  // std::vector<Event> m_data3DNoCopy;
+  std::vector<Event> m_data3DNoCopy;
 };
 }  // namespace pingo
 
