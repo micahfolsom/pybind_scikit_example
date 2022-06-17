@@ -62,5 +62,7 @@ PYBIND11_MODULE(pingo_cpp, m) {
       .def_property("data_2d", &pingo::Pingo::get_data_2d,
                     &pingo::Pingo::set_data_2d)
       .def_property("data_3d", &pingo::Pingo::get_data_3d,
-                    &pingo::Pingo::set_data_3d);
+                    &pingo::Pingo::set_data_3d)
+      .def_property("data_3d_colmaj", &pingo::Pingo::get_data_3d_colmaj,
+                    nullptr);
 }

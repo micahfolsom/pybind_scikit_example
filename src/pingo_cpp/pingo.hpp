@@ -51,7 +51,7 @@ class Pingo {
   // More advanced - functions showing what happens if 1) we get the loop
   // order wrong and use column instead of row major and 2) avoiding the
   // copy by passing the array pointer
-  // pybind11::array_t<float> get_data_2d_cmaj() const;
+  pybind11::array_t<Event> get_data_3d_colmaj() const;
   // using memcpy() to copy the whole array at once, instead of looping
   // over the vector<vector<vector<Event>>>
   // pybind11::array_t<Event> get_data_3d_memcopy();

@@ -212,4 +212,23 @@ void Pingo::set_data_3d(pybind11::array_t<Event> arr) {
   }
   return;
 }
+pybind11::array_t<Event> Pingo::get_data_3d_colmaj() const {
+  pybind11::array_t<Event> output(m_size * m_size * m_size);
+  auto ptr = static_cast<Event*>(output.request().ptr);
+  // Loop order is incorrect on purpose
+  for (size_t k = 0; k < m_size; ++k) {
+    for (size_t j = 0; j < m_size; ++j) {
+      for (size_t i = 0; i < m_size; ++i) {
+        // Same idx calc as row-major but loop order is swapped
+        size_t idx = ((i * m_size + j) * m_size) + k;
+        ptr[idx].channel = m_data3D[i][j][k].channel;
+        ptr[idx].timestamp = m_data3D[i][j][k].timestamp;
+        ptr[idx].value = m_data3D[i][j][k].value;
+        ptr[idx].error = m_data3D[i][j][k].error;
+      }
+    }
+  }
+  output.resize({m_size, m_size, m_size});
+  return output;
+}
 }  // namespace pingo

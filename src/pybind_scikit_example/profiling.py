@@ -51,6 +51,19 @@ def profile_3d_numpy_copy(obj_size=150, ntrials=1000):
     print(f"Total array size: {obj_size**3 * (1 + 8 + 4 + 1) / 1e9} GB")
 
 
+def profile_3d_numpy_colmaj(obj_size=50, ntrials=1000):
+    init = f"p = Pingo({obj_size})"
+    dur = timeit.timeit(
+        "d = p.data_3d_colmaj", setup=";".join([IMPORT, init]), number=ntrials
+    )
+    print(
+        f"\nTook {dur/ntrials} sec to copy Pingo 3D data (loop copy, column major) with"
+        f" {obj_size=} and {ntrials=}"
+    )
+    # uint8, uint64, float32, bool = 1 + 8 + 4 + 1 bytes
+    print(f"Total array size: {obj_size**3 * (1 + 8 + 4 + 1) / 1e9} GB")
+
+
 """
 def profile_3d_numpy_memcopy(obj_size=100, ntrials=1000):
     init = f"p = Pingo({obj_size})"
